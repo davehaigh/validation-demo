@@ -1,0 +1,29 @@
+{% extends "layout.html" %} 
+
+{% block page_title %} 
+Form validated
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-l">Form validated</h1>
+
+        <p class="govuk-body">This is the next page.</p>
+
+        <p class="govuk-body">You answered {{myData.radiosAnswer}}.</p>
+
+        <form method="POST" class="form">
+
+            <button type="submit" class="govuk-button">
+                Previous page
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

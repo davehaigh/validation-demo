@@ -5,9 +5,9 @@
 {% set _errorMessage1 = myData.validationErrorInfo.message1 %}
 <!-- {% set _errorMessage2 = validationErrorInfo.message2 %} -->
 
-{% block page_title %} 
+{% block pageTitle %} 
 {% if _inError == "true" %}Error: {% endif %}
-Question
+Page title here
 {% endblock %}
 
 {% block content %}
@@ -24,39 +24,42 @@ Question
                 </h2>
                 <div class="govuk-error-summary__body">
                     <ul class="govuk-list govuk-error-summary__list">
-                    <li>
-                        <a href="#radios">{{_errorMessage1}}</a>
-                    </li>
+                        {% for name, item in myData.validationErrors %}
+                        <li>
+                            <a href="#{{item.anchor}}">{{item.message}}</a>
+                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
-                </div>
+            </div>
             {% endif %}
 
-            <div class="govuk-form-group {% if _inError == 'true' %}govuk-form-group--error{% endif %}">
+            <!-- RADIOS -->
+            <div class="govuk-form-group {% if myData.validationErrors.radios2Answer %}govuk-form-group--error{% endif %}">
                 <fieldset class="govuk-fieldset" aria-describedby="radio-hint">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                    <h1 class="govuk-fieldset__heading">
-                        Question?
-                    </h1>
+                        <h1 class="govuk-fieldset__heading">
+                            Radios
+                        </h1>
                     </legend>
                     <span id="radio-hint" class="govuk-hint">
-                        Hint text
+                        Hint
                     </span>
-                    {% if _inError == "true" %}
-                    <span id="nationality-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{_errorMessage1}}
+                    {% if myData.validationErrors.radios2Answer %}
+                    <span id="radios2Answer-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{myData.validationErrors.radios2Answer.message}}
                     </span>
                     {% endif %}
-                    <div class="govuk-radios govuk-radios--inline" id="radios">
+                    <div class="govuk-radios govuk-radios--inline" id="radios2Answer">
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="radio-1" name="radiosAnswer" type="radio" value="yes">
-                            <label class="govuk-label govuk-radios__label" for="radio-1">
+                            <input class="govuk-radios__input" id="radios2-1" name="radios2Answer" type="radio" value="Yes" {% if myData.radios2AnswerTemp == 'Yes' %}checked{% endif %}>
+                            <label class="govuk-label govuk-radios__label" for="radios2-1">
                             Yes
                             </label>
                         </div>
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="radio-2" name="radiosAnswer" type="radio" value="no">
-                            <label class="govuk-label govuk-radios__label" for="radio-2">
+                            <input class="govuk-radios__input" id="radios2-2" name="radios2Answer" type="radio" value="No" {% if myData.radios2AnswerTemp == 'No' %}checked{% endif %}>
+                            <label class="govuk-label govuk-radios__label" for="radios2-2">
                             No
                             </label>
                         </div>
@@ -67,6 +70,8 @@ Question
             <button type="submit" class="govuk-button">
                 Continue
             </button>
+
+            <p class="govuk-body"><a href="?resetSession=true" class="govuk-link govuk-link--no-visited-state">Reset form</a></p>
 
         </form>
 

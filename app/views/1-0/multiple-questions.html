@@ -1,0 +1,98 @@
+{% extends "layout.html" %} 
+
+{% set _inError = myData.validationError %}
+
+{% set _errorMessage1 = myData.validationErrorInfo.message1 %}
+<!-- {% set _errorMessage2 = validationErrorInfo.message2 %} -->
+
+{% block pageTitle %} 
+{% if _inError == "true" %}Error: {% endif %}
+Page title here
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <form method="POST" class="form">
+
+            {% if _inError == "true" %}
+            <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">
+                    There is a problem
+                </h2>
+                <div class="govuk-error-summary__body">
+                    <ul class="govuk-list govuk-error-summary__list">
+                        {% for name, item in myData.validationErrors %}
+                        <li>
+                            <a href="#{{item.anchor}}">{{item.message}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <h1 class="govuk-heading-l">Heading</h1>
+
+            <!-- RADIOS -->
+            <div class="govuk-form-group {% if myData.validationErrors.radios1Answer %}govuk-form-group--error{% endif %}">
+                <fieldset class="govuk-fieldset" aria-describedby="radio-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                        Radios
+                    </legend>
+                    <span id="radio-hint" class="govuk-hint">
+                        Hint
+                    </span>
+                    {% if myData.validationErrors.radios1Answer %}
+                    <span id="radios1Answer-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{myData.validationErrors.radios1Answer.message}}
+                    </span>
+                    {% endif %}
+                    <div class="govuk-radios govuk-radios--inline" id="radios1Answer">
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="radios1-1" name="radios1Answer" type="radio" value="Yes" {% if myData.radios1AnswerTemp == 'Yes' %}checked{% endif %}>
+                            <label class="govuk-label govuk-radios__label" for="radios1-1">
+                            Yes
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="radios1-2" name="radios1Answer" type="radio" value="No" {% if myData.radios1AnswerTemp == 'No' %}checked{% endif %}>
+                            <label class="govuk-label govuk-radios__label" for="radios1-2">
+                            No
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- TEXT FIELD -->
+            <div class="govuk-form-group {% if myData.validationErrors.text1Answer %}govuk-form-group--error{% endif %}">
+                <label class="govuk-label govuk-!-font-weight-bold" for="text1Answer">
+                    Text
+                </label>
+                <span id="text1Answer-hint" class="govuk-hint">
+                    Hint
+                </span>
+                {% if myData.validationErrors.text1Answer %}
+                <span id="text1Answer-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> {{myData.validationErrors.text1Answer.message}}
+                </span>
+                {% endif %}
+                <input class="govuk-input {% if myData.validationErrors.text1Answer %}govuk-input--error{% endif %}" id="text1Answer" name="text1Answer" type="text" aria-describedby="text1Answer-error" value="{{myData.text1AnswerTemp}}">
+
+            </div>
+
+            <button type="submit" class="govuk-button">
+                Continue
+            </button>
+
+            <p class="govuk-body"><a href="?resetSession=true" class="govuk-link govuk-link--no-visited-state">Reset form</a></p>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -7,7 +7,10 @@ The following files contain all you need:
 ```
 app/routes.js
 app/routes/1-0/routes.js
-app/views/1-0/form.html
+
+app/views/1-0/multiple-questions.html
+or
+app/views/1-0/single-question.html
 ```
 
 ## View in action
